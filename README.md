@@ -1,4 +1,4 @@
-Playwright E2E Automation – SauceDemo
+Playwright Automation – SauceDemo
 
 ## Overview
 
@@ -16,33 +16,44 @@ Playwright E2E Automation – SauceDemo
 
 ## Test Scenarios Covered
 
-Mandatory Scenario – Checkout Flow
+### 1. Successful Checkout Flow (E2E)
 
-- Select a product from the inventory.
+**Why this test was chosen:**
+This test covers the main business flow of the application. Completing a purchase successfully is the most critical functionality, as it validates that a user can navigate through the entire buying process without errors.
 
-- Open the Product Detail Page.
+**Validations included:**
+- User can add a product to the cart
+- Cart badge updates correctly
+- Product details (name, quantity, price) are correct
+- Checkout form accepts user information
+- Subtotal, tax, and total amounts are calculated correctly
+- Order is completed successfully and confirmation message is displayed
 
-- Add the product to the cart.
+---
 
-- Return to the inventory.
+### 2. Remove Product from Cart
 
-- Proceed to checkout.
+**Why this test was chosen:**
+This test validates cart behavior and state management. Removing items from the cart is a common user action and ensures the UI and cart state are updated correctly.
 
-- Complete the purchase flow.
+**Validations included:**
+- Product is successfully removed from the cart
+- Cart badge is removed when no items remain
+- Removed product is no longer visible in the cart
+- Cart page remains accessible and stable
 
-- Validate prices, tax, and total amount.
+---
 
-- Validate successful order confirmation.
+### 3. Login with Invalid Credentials
 
-Additional Scenario – Remove Item from Cart
+**Why this test was chosen:**
+Authentication is the main entry point of the application. This test ensures that invalid credentials are correctly rejected and that the user receives proper feedback.
 
-- Add a product to the cart.
-
-- Remove the product from the cart.
-
-- Validate that the cart is empty and UI elements are no longer visible.
-
-- This additional test adds value by covering an important user interaction and potential regression point.
+**Validations included:**
+- Login is denied when invalid credentials are used
+- Error message is displayed and visible to the user
+- User remains on the login page
+- No session is created and no navigation occurs
 
 ## Tech Stack
 
@@ -59,18 +70,21 @@ Additional Scenario – Remove Item from Cart
 ## Project Structure
 
 ├── page/
-│ └── CheckoutPage.ts # Page Object Model (POM)
+│   ├── CheckoutPage.ts   # Page Object for checkout flow
+│   └── LoginPage.ts      # Page Object for login page
 │
 ├── tests/
-│ └── checkout.spec.ts # E2E test cases
+│   └── ui/
+│       ├── checkout.spec.ts  # Checkout E2E tests
+│       └── login.spec.ts     # Login validation tests
 │
 ├── utils/
-│ └── login.ts # Reusable login helper
+│   └── login.ts          # Reusable login helper
 │
 ├── .github/workflows/
-│ └── playwright.yml # CI pipeline
+│   └── playwright.yml    # CI pipeline
 │
-├── playwright.config.ts # Playwright configuration
+├── playwright.config.ts
 ├── package.json
 ├── tsconfig.json
 └── README.md
@@ -99,7 +113,7 @@ Additional Scenario – Remove Item from Cart
 
 ## Navigate to the project directory
 
-- cd your-repo-name
+- cd automation_test_saucedemo
 
 ## Install dependencies
 
@@ -146,3 +160,12 @@ CI Features
 - Test data is static and could be externalized or randomized in future iterations.
 
 - Additional tagging (@smoke, @regression) and multi-browser execution could be added if the test suite grows.
+
+## Problems, Errors & Observations
+
+- During the invalid login validation, the error message UI appears visually misaligned within the red error container, suggesting a potential CSS layout issue.
+
+- The error message starts with the text “Epic sad face”, which may not be suitable for a production environment. The message feels informal and could be confusing or unprofessional for end users.
+
+- No functional blockers were encountered while automating the test cases. All scenarios were automatable using Playwright without workarounds.
+
